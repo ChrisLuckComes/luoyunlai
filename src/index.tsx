@@ -7,6 +7,10 @@ import { BrowserTracing } from '@sentry/tracing';
 import './styles/tailwind.css';
 import React from 'react';
 
+const isProd = process.env.NODE_ENV === 'production';
+
+const BASE_NAME = isProd ? '/luoyunlai' : undefined;
+
 Sentry.init({
   dsn: 'https://f9b78d8c10764484a2ea88ab3110cbd6@o4504127925780480.ingest.sentry.io/4504127929712640',
   integrations: [
@@ -28,7 +32,7 @@ Sentry.init({
 });
 
 ReactDOM.render(
-  <BrowserRouter>
+  <BrowserRouter basename={BASE_NAME}>
     <App />
   </BrowserRouter>,
   document.getElementById('root')

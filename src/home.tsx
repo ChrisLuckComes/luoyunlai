@@ -24,7 +24,7 @@ export default function Home() {
   return (
     <div className={classMap.home}>
       <div className={Styles["home"]}>
-        <div className={Styles["title-bar"]}>Luoyunlai.top</div>
+        <div className={Styles["title-bar"]}>Luoyunlai</div>
         <div className={Styles["text-body"]}>
           &nbsp;$&nbsp;<span ref={el}></span>
         </div>

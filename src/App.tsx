@@ -73,7 +73,7 @@ export default function App() {
           <div className="flex-shrink-0">
             <LazyImage className="h-36 mr-8" src={CAIGOU} width={36} />
           </div>
-          <span>Luoyunlai.top</span>
+          <span>Luoyunlai</span>
         </div>
         <Menu
           className="min-w-header-menu"

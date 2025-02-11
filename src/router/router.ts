@@ -344,6 +344,12 @@ const routers = [
         path: 'treeShaking',
         name: 'Tree Shaking',
         element: lazy(() => import('@/pages/knowledge/treeShaking'))
+      },
+      {
+        key: '/knowledge/indexedDB',
+        path: 'indexedDB',
+        name: 'IndexedDB',
+        element: lazy(() => import('@/pages/knowledge/indexDB'))
       }
     ]
   }

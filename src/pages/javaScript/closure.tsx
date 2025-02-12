@@ -18,9 +18,9 @@ export default function Index() {
         </h2>
         你是不是像我一样，经常被灵魂一问，什么是闭包？
         <LazyImage src={NICK_YOUNG}></LazyImage>
-        答案先说一半，闭包是一个对象……
+        答案先说一半，闭包是一个函数，它可以访问另一个函数作用域内的变量。即使这个函数已经执行完毕，其作用域内的变量也不会被销毁，而是会被保留在内存中。
         <br />
-        嘿嘿，废话文学皮一下，剩下的一半下文详细分析之后来补上。文中主要涉及
+        文中主要涉及
         <strong>执行上下文</strong>、<strong>作用域链</strong>等概念。
         <br />
         <h2 id="debug" className={classMap.articleTitle}>
@@ -56,8 +56,7 @@ export default function Index() {
         <h3 id="scopeChain" className={classMap.articleSubTitle}>
           作用域链
         </h3>
-        上下文代码执行时，会创建VO的一个<strong>作用域链</strong>{" "}
-        ，也就是debug看到的<code>[[Scopes]]</code>
+        上下文代码执行时，会创建VO的一个<strong>作用域链</strong> ，也就是debug看到的<code>[[Scopes]]</code>
         。它决定了上下文代码在访问变量时的顺序，代码正在执行的的上下文的VO始终位于作用域链的最前端。如果上下文是函数，则活动对象(activation
         object)作为VO，活动对象最初只有一个变量<code>arguments</code>
         。下一个VO来自包含的上下文，下一个VO再来自下一个包含上下文，以此类推直到全局上下文。全局上下文始终是作用域链的最后一个VO。
@@ -83,48 +82,52 @@ export default function Index() {
         既然闭包可以保存父级的活动对象，那可以利用它实现私有属性，只对外暴露函数来读写该值，代码如下:
         {privateAttr}
         <h2 id="summary" className={classMap.articleTitle}>
-          总结
+          应用场景
         </h2>
-        闭包是一个对象……的引用，这个对象就是父级的活动变量，函数执行时会创建作用域链，在作用域链里寻找标识符的时候就会找到闭包。
+        <ul className={classMap.ul}>
+          <li>1.实现私有成员，避免被外部修改或者污染</li>
+          <li>2.保存状态</li>
+          <li>3.实现函数柯里化</li>
+        </ul>
       </main>
       <ArticleAnchor
         items={[
           {
-            key: "closure",
-            title: "10分钟内搞懂什么是闭包",
-            href: "#closure"
+            key: 'closure',
+            title: '10分钟内搞懂什么是闭包',
+            href: '#closure'
           },
           {
-            key: "debug",
-            title: "debug分析",
-            href: "#debug"
+            key: 'debug',
+            title: 'debug分析',
+            href: '#debug'
           },
           {
-            key: "function",
-            title: "执行上下文",
-            href: "#function",
+            key: 'function',
+            title: '执行上下文',
+            href: '#function',
             children: [
               {
-                key: "scopeChain",
-                title: "作用域链",
-                href: "#scopeChain"
+                key: 'scopeChain',
+                title: '作用域链',
+                href: '#scopeChain'
               }
             ]
           },
           {
-            key: "closureDiff",
-            title: "闭包的不同之处",
-            href: "#closureDiff"
+            key: 'closureDiff',
+            title: '闭包的不同之处',
+            href: '#closureDiff'
           },
           {
-            key: "use",
-            title: "用途",
-            href: "#use"
+            key: 'use',
+            title: '用途',
+            href: '#use'
           },
           {
-            key: "summary",
-            title: "总结",
-            href: "#summary"
+            key: 'summary',
+            title: '应用场景',
+            href: '#summary'
           }
         ]}
       ></ArticleAnchor>

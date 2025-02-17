@@ -99,7 +99,7 @@
     "start": "concurrently \"npm run start:css\" \"vite --host\"",
     "build": "vite build",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build --repo https://github.com/ChrisLuckComes/luoyunlai.git"
   },
   "eslintConfig": {
     "extends": [

@@ -50,11 +50,8 @@ export default function Index() {
         </h2>
         接受一个普通对象然后返回该对象的响应式<code>proxy</code>
         <br />
-        Vue3中响应式数据核心是<code>reactive</code>，它由<code>proxy</code>+
-        <code>effect</code>组合
-        <div className={classMap.assist}>
-          packages\reactivity\src\reactive.ts
-        </div>
+        Vue3中响应式数据核心是<code>reactive</code>，它由<code>proxy</code>+<code>effect</code>组合
+        <div className={classMap.assist}>packages\reactivity\src\reactive.ts</div>
         {reactive}
         再进入<code>createReactiveObject</code>
         {createReactiveObject}
@@ -78,10 +75,8 @@ export default function Index() {
         <h2 id="ref" className={classMap.articleTitle}>
           ref
         </h2>
-        接受一个参数值并返回一个响应式且可改变的ref对象，ref对象拥有一个指向内部值的单一属性.value
-        ref可以看作是
-        <code>reactive</code>{" "}
-        的变形，用于解决值类型的数据响应，如果传入ref的是对象，会调用
+        接受一个参数值并返回一个响应式且可改变的ref对象，ref对象拥有一个指向内部值的单一属性.value ref可以看作是
+        <code>reactive</code> 的变形，用于解决值类型的数据响应，如果传入ref的是对象，会调用
         <code>reactive</code>
         <br />
         <div className={classMap.assist}>packages\reactivity\src\ref.ts</div>
@@ -103,9 +98,7 @@ export default function Index() {
         </h2>
         handlers是Proxy的第二个参数，针对target具体操作同时做一些处理。
         <code>baseHandlers</code>包含4种handler
-        <div className={classMap.assist}>
-          packages\reactivity\src\baseHandlers.ts
-        </div>
+        <div className={classMap.assist}>packages\reactivity\src\baseHandlers.ts</div>
         <ul className={classMap.ul}>
           <li>mutableHandlers 可变处理</li>
           <li>readonlyHandlers 只读处理</li>
@@ -169,9 +162,7 @@ export default function Index() {
         或者传入一个包含get，set函数的对象，创建一个可以手动修改的计算属性
         <br />
         可能会依赖其他<code>reactive</code>的值，同时会延迟和缓存计算值
-        <div className={classMap.assist}>
-          packages\reactivity\src\computed.ts
-        </div>
+        <div className={classMap.assist}>packages\reactivity\src\computed.ts</div>
         {computed}
         调用<code>ComputedRefImpl</code>
         {computedRefImpl}
@@ -180,81 +171,92 @@ export default function Index() {
         </h2>
         <ul>
           <li>
-            <code>ref,reactive</code> proxy监听属性get,set操作
+            <strong>响应式数据的创建</strong>
+            通过<code>ref,reactive</code>创建响应式变量或对象，内部创建<code>proxy</code>
+            来代理原始对象，<code>get</code>拦截器执行依赖收集,<code>set</code>拦截器执行依赖更新的操作
           </li>
           <li>
-            访问属性，触发get,调用<code>track</code>收集依赖
+            <strong>依赖收集</strong>
+            在组件初始化时，组件的渲染函数会被封装成<code>effect</code>副作用函数。这个副作用函数会在组件首次渲染时执行，并且在执行过程中会访问响应式数据。
+            <br />
+            此时会触发<code>Proxy</code>的<code>get</code>拦截器，调用<code>track</code>收集依赖。<code>track</code>函数会将当前正在执行的<code>activeEffect</code>副作用函数与被访问的响应式数据建立关联，将其保存到一个依赖集合中。
+            <br />
           </li>
           <li>
-            修改属性，触发set，调用<code>trigger</code>effect.run
+            <strong>依赖更新</strong>
+            数据修改触发<code>set</code>拦截器，调用<code>trigger</code>函数遍历依赖集合中的所有副作用函数，并执行它们。如果副作用是组件渲染函数，那么就会重新渲染组件生成新的虚拟DOM树。
+          </li>
+          <li>
+            <strong>虚拟DOM比较与更新</strong>
+            重新执行渲染函数后，生成新的虚拟DOM树，与上一次渲染生成的虚拟DOM树进行比较，找出差异并更新到真实DOM上。这个过程称为<code>diff</code>算法
           </li>
         </ul>
       </main>
       <ArticleAnchor
         items={[
           {
-            title: "reactive",
-            key: "reactive",
-            href: "#reactive"
+            title: 'reactive',
+            key: 'reactive',
+            href: '#reactive'
           },
           {
-            title: "ref",
-            key: "ref",
-            href: "#ref"
+            title: 'ref',
+            key: 'ref',
+            href: '#ref'
           },
           {
-            title: "baseHandlers",
-            key: "baseHandlers",
-            href: "#baseHandlers",
+            title: 'baseHandlers',
+            key: 'baseHandlers',
+            href: '#baseHandlers',
             children: [
               {
-                title: "mutableHandlers",
-                key: "mutableHandlers",
-                href: "#mutableHandlers"
+                title: 'mutableHandlers',
+                key: 'mutableHandlers',
+                href: '#mutableHandlers'
               },
               {
-                title: "get",
-                key: "get",
-                href: "#get"
+                title: 'get',
+                key: 'get',
+                href: '#get'
               },
               {
-                title: "set",
-                key: "set",
-                href: "#set"
+                title: 'set',
+                key: 'set',
+                href: '#set'
               },
               {
-                title: "deleteProperty has ownKeys",
-                key: "other",
-                href: "#other"
+                title: 'deleteProperty has ownKeys',
+                key: 'other',
+                href: '#other'
               }
             ]
           },
           {
-            title: "effect",
-            key: "effect",
-            href: "#effect",
+            title: 'effect',
+            key: 'effect',
+            href: '#effect',
             children: [
               {
-                title: "track",
-                key: "track",
-                href: "#track"
+                title: 'track',
+                key: 'track',
+                href: '#track'
               },
               {
-                title: "trigger",
-                key: "trigger",
-                href: "#trigger"
+                title: 'trigger',
+                key: 'trigger',
+                href: '#trigger'
               }
             ]
           },
           {
-            title: "computed",
-            key: "computed",
-            href: "#computed"
+            title: 'computed',
+            key: 'computed',
+            href: '#computed'
           },
           {
-            title: "总结",
-            key: "summary",
-            href: "#summary"
+            title: '总结',
+            key: 'summary',
+            href: '#summary'
           }
         ]}
       ></ArticleAnchor>

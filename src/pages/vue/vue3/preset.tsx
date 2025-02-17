@@ -73,7 +73,7 @@ export default function Preset() {
           <li>
             <code>proxy</code>劫持的是整个对象，不需要特殊处理。
             <code>Object.defineProperty</code>
-            监听的是属性，新增属性需要再次调用
+            监听的是属性，新增属性需要再次调用，并且当对象属性较多或者嵌套层级较深时，初始化和更新时性能上也有影响。
           </li>
           <li>
             使用<code>Object.defineProperty</code>，修改原对象触发；使用
@@ -115,51 +115,51 @@ export default function Preset() {
       <ArticleAnchor
         items={[
           {
-            title: "Vue3为什么改用proxy",
-            key: "proxy",
-            href: "#proxy",
+            title: 'Vue3为什么改用proxy',
+            key: 'proxy',
+            href: '#proxy',
             children: [
               {
-                title: "Object.defineProperty",
-                key: "defineProperty",
-                href: "#defineProperty"
+                title: 'Object.defineProperty',
+                key: 'defineProperty',
+                href: '#defineProperty'
               },
               {
-                title: "Object.defineProperty存在的问题",
-                key: "definePropertyProblem",
-                href: "#definePropertyProblem"
+                title: 'Object.defineProperty存在的问题',
+                key: 'definePropertyProblem',
+                href: '#definePropertyProblem'
               },
               {
-                title: "使用proxy的原因总结",
-                key: "proxySummary",
-                href: "#proxySummary"
+                title: '使用proxy的原因总结',
+                key: 'proxySummary',
+                href: '#proxySummary'
               }
             ]
           },
           {
-            title: "Set、Map、WeakSet、WeakMap",
-            key: "collection",
-            href: "#collection",
+            title: 'Set、Map、WeakSet、WeakMap',
+            key: 'collection',
+            href: '#collection',
             children: [
               {
-                title: "Set",
-                key: "set",
-                href: "#set"
+                title: 'Set',
+                key: 'set',
+                href: '#set'
               },
               {
-                title: "WeakSet",
-                key: "weakSet",
-                href: "#weakSet"
+                title: 'WeakSet',
+                key: 'weakSet',
+                href: '#weakSet'
               },
               {
-                title: "Map",
-                key: "map",
-                href: "#map"
+                title: 'Map',
+                key: 'map',
+                href: '#map'
               },
               {
-                title: "WeakMap",
-                key: "weakMap",
-                href: "#weakMap"
+                title: 'WeakMap',
+                key: 'weakMap',
+                href: '#weakMap'
               }
             ]
           }

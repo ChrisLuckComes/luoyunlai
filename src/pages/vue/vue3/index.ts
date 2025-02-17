@@ -1699,3 +1699,61 @@ const patchKeyedChildren = (
     }
   }
 }\`\`\``;
+
+export const GET_SEQUENCE = `\`\`\`ts
+export const getSequence = (arr: number[]) => {
+  const p = arr.slice() // 记录每个元素在最长递增子序列的前一个元素的索引
+
+  const result = [0] // 记录最长递增子序列的索引，初始化为第一个元素的索引0
+  let i, j, u, v, c // 临时变量
+
+  const len = arr.length
+
+  /**
+   * 遍历数组arr
+   * 对于每个元素arrI,如果arrI不等于0,进行如下操作
+   * 获取result数组的最后一个元素的索引j
+   * 如果arr[j] < arrI，则arrI可以直接添加到最长递增子序列的末尾。将p[i]设置为j，
+   * 表示arrI在最长递增子序列的前一个元素是arr[j]，然后将i添加到result数组中。
+   * 如果不能添加到末尾，则使用二分查找找到result数组中第一个大于等于arrI的元素的索引u，
+   * 如果u大于0，则将p[i]设置为result[u-1]，表示arrI在最长递增子序列的前一个元素是result[u-1]
+   * 然后将result[u]设置为i
+   * 最后回溯构建最长递增子序列
+   */
+  for (i = 0; i < len; i++) {
+    const arrI = arr[i]
+    if (arrI !== 0) {
+      j = result[result.length - 1]
+      if (arr[j] < arrI) {
+        p[i] = j
+        result.push(i)
+        continue
+      }
+      u = 0
+      v = result.length - 1
+      while (u < v) {
+        c = (u + v) >> 1
+        if (arr[result[c]] < arrI) {
+          u = c + 1
+        } else {
+          v = c
+        }
+      }
+      if (arrI < arr[result[u]]) {
+        if (u > 0) {
+          p[i] = result[u - 1]
+        }
+        result[u] = i
+      }
+    }
+  }
+  u = result.length
+  v = result[u - 1]
+  while (u-- > 0) {
+    result[u] = v
+    v = p[v]
+  }
+  return result
+}
+
+\`\`\``;

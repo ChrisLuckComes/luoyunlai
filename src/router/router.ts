@@ -76,6 +76,13 @@ const routers = [
         name: 'TypeScript类型体操(二)',
         group: 'TypeScript',
         element: lazy(() => import('@/pages/javaScript/tsExercise2'))
+      },
+      {
+        key: '/js/typeAndInterface',
+        path: 'typeAndInterface',
+        name: 'type,interface和抽象类',
+        group: 'TypeScript',
+        element: lazy(() => import('@/pages/javaScript/typeAndInterface'))
       }
     ]
   },

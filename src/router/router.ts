@@ -165,6 +165,13 @@ const routers = [
         element: lazy(() => import('@/pages/vue/vue3/diff'))
       },
       {
+        key: '/vue/vue3/setup',
+        path: 'vue3/setup',
+        name: 'script setup',
+        group: 'vue3',
+        element: lazy(() => import('@/pages/vue/vue3/setup'))
+      },
+      {
         key: '/vue/vue2/router',
         path: '/vue2/router',
         name: 'Vue-Router',

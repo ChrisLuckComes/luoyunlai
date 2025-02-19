@@ -179,6 +179,13 @@ const routers = [
         element: lazy(() => import('@/pages/vue/vue3/setup'))
       },
       {
+        key: '/vue/vue3/scoped',
+        path: 'vue3/scoped',
+        name: 'style scoped',
+        group: 'vue3',
+        element: lazy(() => import('@/pages/vue/vue3/scoped'))
+      },
+      {
         key: '/vue/vue2/router',
         path: '/vue2/router',
         name: 'Vue-Router',

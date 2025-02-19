@@ -186,6 +186,13 @@ const routers = [
         element: lazy(() => import('@/pages/vue/vue3/scoped'))
       },
       {
+        key: '/vue/vue3/keepAlive',
+        path: 'vue3/keepAlive',
+        name: 'keep-alive',
+        group: 'vue3',
+        element: lazy(() => import('@/pages/vue/vue3/keepAlive'))
+      },
+      {
         key: '/vue/vue2/router',
         path: '/vue2/router',
         name: 'Vue-Router',

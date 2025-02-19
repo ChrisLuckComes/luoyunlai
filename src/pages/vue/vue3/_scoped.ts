@@ -1,4 +1,4 @@
-export const PROCESS_ELEMENT = `\`\`\`
+export const PROCESS_ELEMENT = `\`\`\`ts
 // @vue/compiler-dom 中处理模板编译的部分逻辑
 function processElement(node, context) {
   if (context.scoped) {

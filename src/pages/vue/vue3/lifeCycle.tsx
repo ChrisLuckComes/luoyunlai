@@ -2,12 +2,26 @@ import { classMap } from '@/constants/constant';
 
 import { UseMarkDown } from '@/hooks/useMarkdown';
 import { ArticleAnchor } from '@/component/Anchor';
-import { INJECT_HOOK, CALL_HOOK, SETUP } from './_lifeCycle';
+import {
+  INJECT_HOOK,
+  CALL_HOOK,
+  SETUP,
+  BEFORE_MOUNT,
+  MOUNTED,
+  BEFORE_UPDATED,
+  BEFORE_ONUNMOUNT,
+  ONUNMOUNT
+} from './_lifeCycle';
 
 export default function Index() {
   const injectHook = <UseMarkDown markdown={INJECT_HOOK}></UseMarkDown>,
     callHook = <UseMarkDown markdown={CALL_HOOK}></UseMarkDown>,
-    setup = <UseMarkDown markdown={SETUP}></UseMarkDown>;
+    setup = <UseMarkDown markdown={SETUP}></UseMarkDown>,
+    beforeMount = <UseMarkDown markdown={BEFORE_MOUNT}></UseMarkDown>,
+    mounted = <UseMarkDown markdown={MOUNTED}></UseMarkDown>,
+    beforeUpdate = <UseMarkDown markdown={BEFORE_UPDATED}></UseMarkDown>,
+    beforeUnmount = <UseMarkDown markdown={BEFORE_ONUNMOUNT}></UseMarkDown>,
+    unmounted = <UseMarkDown markdown={ONUNMOUNT}></UseMarkDown>;
 
   return (
     <article id="rootArticle" className={classMap.article}>
@@ -74,6 +88,140 @@ export default function Index() {
         </ul>
         {setup}
         当然使用选项式API时，这两个钩子函数依然存在。
+        <h2 id="detail" className={classMap.articleTitle}>
+          生命周期详细分析
+        </h2>
+        组件生命周期中，这些钩子的执行顺序为：onBeforeMount - 组件挂载到 DOM - onMounted - onBeforeUnmount - 组件从 DOM
+        卸载 - onUnmounted。
+        <h3 id="onBeforeMount" className={classMap.articleSubTitle}>
+          onBeforeMount
+        </h3>
+        <ul className={classMap.ul}>
+          <li>
+            <strong>之前的操作：</strong>在调用之前，Vue会完成组件实例的初始化，包括解析<code>props</code>、
+            <code>data</code>、<code>computed</code>、<code>methods</code>等，创建响应式数据，以及设置组件的上下文等。
+            同时会生成组件的VNode树。
+          </li>
+          <li>
+            <strong>执行时机：</strong>在组件即将挂载到DOM之前触发。
+          </li>
+          <li>
+            <strong>相关代码：</strong>
+            <br />
+            {beforeMount}
+          </li>
+          <li>
+            <strong>用途：</strong>在组件创建之前做一些准备工作，比如获取初始化数据，初始化第三方库等。
+          </li>
+        </ul>
+        <h3 id="onMounted" className={classMap.articleSubTitle}>
+          onMounted
+        </h3>
+        <ul className={classMap.ul}>
+          <li>
+            <strong>之前的操作：</strong>调用之前，组件已经完成了VNode的创建和挂载，真实的DOM元素已经插入到页面
+          </li>
+          <li>
+            <strong>执行时机：</strong>在组件挂在到DOM之后触发
+          </li>
+          <li>
+            <strong>相关代码：</strong>
+            {mounted}
+          </li>
+          <li>
+            <strong>用途：</strong>最常用的钩子，挂载完成后设置数据，绑定事件等
+          </li>
+        </ul>
+        <h3 id="onBeforeUpdated" className={classMap.articleSubTitle}>
+          onBeforeUpdated
+        </h3>
+        <ul className={classMap.ul}>
+          <li>
+            <strong>之前的操作：</strong>调用之前，组件检测到响应式数据发生了变化，触发了更新流程。Vue会进行
+            <code>diff</code>操作，确定需要更新的部分
+          </li>
+          <li>
+            <strong>执行时机：</strong>在组件更新之前，也就是重新渲染和执行<code>patch</code>之前触发。
+          </li>
+          <li>
+            <strong>相关代码：</strong>
+            {beforeUpdate}
+          </li>
+          <li>
+            <strong>用途：</strong>用于在组件更新之前访问旧的状态，例如保存滚动位置、获取旧的尺寸等。
+          </li>
+        </ul>
+        <h3 id="onUpdated" className={classMap.articleSubTitle}>
+          onUpdated
+        </h3>
+        <ul className={classMap.ul}>
+          <li>
+            <strong>之前的操作：</strong>调用之前，组件的更新已经完成了，DOM已经更新到页面上。
+          </li>
+          <li>
+            <strong>执行时机：</strong>在组件更新完成之后。
+          </li>
+          <li>
+            <strong>相关代码：</strong>同上
+          </li>
+          <li>
+            <strong>用途：</strong>用于在组件更新之后执行一些依赖于新DOM状态的操作。
+          </li>
+        </ul>
+        <h3 id="onBeforeUnmount" className={classMap.articleSubTitle}>
+          onBeforeUnmount
+        </h3>
+        <ul className={classMap.ul}>
+          <li>
+            <strong>之前的操作：</strong>调用之前，组件依然处于挂载状态，DOM元素仍然存在页面中
+          </li>
+          <li>
+            <strong>执行时机：</strong>在组件即将从DOM中卸载之前触发
+          </li>
+          <li>
+            <strong>相关代码：</strong>
+            {beforeUnmount}
+          </li>
+          <li>
+            <strong>用途：</strong>用于在组件卸载之前进行一些清理工作，如清除定时器、移除事件监听等，避免内存泄漏。
+          </li>
+        </ul>
+        <h3 id="onBeforeUnmount" className={classMap.articleSubTitle}>
+          onBeforeUnmount
+        </h3>
+        <ul className={classMap.ul}>
+          <li>
+            <strong>之前的操作：</strong>调用之前，组件依然处于挂载状态，DOM元素仍然存在页面中
+          </li>
+          <li>
+            <strong>执行时机：</strong>在组件即将从DOM中卸载之前触发
+          </li>
+          <li>
+            <strong>相关代码：</strong>
+            {beforeUnmount}
+          </li>
+          <li>
+            <strong>用途：</strong>用于在组件卸载之前进行一些清理工作，如清除定时器、移除事件监听等，避免内存泄漏。
+          </li>
+        </ul>
+        <h3 id="onUnmounted" className={classMap.articleSubTitle}>
+          onUnmounted
+        </h3>
+        <ul className={classMap.ul}>
+          <li>
+            <strong>之前的操作：</strong>调用之前，组件已经完成了从DOM中的卸载，真实的DOM元素已经从页面中移除
+          </li>
+          <li>
+            <strong>执行时机：</strong>在组件即将从DOM中卸载之后触发
+          </li>
+          <li>
+            <strong>相关代码：</strong>
+            {unmounted}
+          </li>
+          <li>
+            <strong>用途：</strong>用于最终的清理工作，比如释放资源、销毁第三方实例等。
+          </li>
+        </ul>
       </main>
       <ArticleAnchor
         items={[
@@ -91,6 +239,43 @@ export default function Index() {
             title: 'setup',
             key: 'setup',
             href: '#setup'
+          },
+          {
+            title: '各生命周期详细分析',
+            key: 'detail',
+            href: '#detail',
+            children: [
+              {
+                title: 'onBeforeMount',
+                key: 'onBeforeMount',
+                href: '#onBeforeMount'
+              },
+              {
+                title: 'onMounted',
+                key: 'onMounted',
+                href: '#onMounted'
+              },
+              {
+                title: 'onBeforeUpdated',
+                key: 'onBeforeUpdated',
+                href: '#onBeforeUpdated'
+              },
+              {
+                title: 'onUpdated',
+                key: 'onUpdated',
+                href: '#onUpdated'
+              },
+              {
+                title: 'onBeforeUnmount',
+                key: 'onBeforeUnmount',
+                href: '#onBeforeUnmount'
+              },
+              {
+                title: 'onUnmounted',
+                key: 'onUnmounted',
+                href: '#onUnmounted'
+              }
+            ]
           }
         ]}
       ></ArticleAnchor>

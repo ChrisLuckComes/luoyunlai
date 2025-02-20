@@ -1,1 +1,0 @@
-import{j as o}from"./index-06d0604c.js";import{A as r}from"./index-69c83c67.js";const a=({items:t})=>o.jsx(r,{className:"h-full overflow-y-auto",getContainer:()=>document.querySelector(".article"),items:t,targetOffset:0});export{a as A};

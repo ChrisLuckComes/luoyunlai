@@ -195,9 +195,16 @@ const routers = [
       {
         key: '/vue/vue3/lifeCycle',
         path: 'vue3/lifeCycle',
-        name: '生命周期', 
+        name: '生命周期',
         group: 'vue3',
         element: lazy(() => import('@/pages/vue/vue3/lifeCycle'))
+      },
+      {
+        key: '/vue/vue3/teleport',
+        path: 'vue3/teleport',
+        name: 'Teleport',
+        group: 'vue3',
+        element: lazy(() => import('@/pages/vue/vue3/teleport'))
       },
       {
         key: '/vue/vue2/router',

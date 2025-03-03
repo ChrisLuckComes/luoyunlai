@@ -207,6 +207,13 @@ const routers = [
         element: lazy(() => import('@/pages/vue/vue3/teleport'))
       },
       {
+        key: '/vue/vue3/suspense',
+        path: 'vue3/suspense',
+        name: 'Suspense',
+        group: 'vue3',
+        element: lazy(() => import('@/pages/vue/vue3/suspense'))
+      },
+      {
         key: '/vue/vue2/router',
         path: '/vue2/router',
         name: 'Vue-Router',

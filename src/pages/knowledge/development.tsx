@@ -53,6 +53,36 @@ export default function Index() {
             MVC中Controller职责较重，需要处理大量的业务逻辑、视图和模型之间的交互逻辑，导致代码复杂度过高。MVVM中ViewModel承担了更多与视图相关的数据转换工作，使得视图和模型之间的职责边界更加清晰，视图只关注展示，模型只关注数据和业务逻辑。
           </li>
         </ul>
+        <h3 id="flux" className={classMap.articleSubTitle}>
+          Flux
+        </h3>
+        Flux是Facebook提出的一种应用程序架构模式，它采用单向数据流的方式来组织应用程序。主要包含四个部分：
+        <ul className={classMap.ul}>
+          <li>
+            <strong>Action：</strong>
+            动作的抽象，包含动作的类型和携带的数据。它是改变Store中状态的唯一方式，通常由用户交互或服务端响应触发。
+          </li>
+          <li>
+            <strong>Dispatcher：</strong>
+            调度中心，负责接收Action并将其分发给所有注册的Store。它确保了数据流的有序性，所有Store接收到Action的顺序是确定的。
+          </li>
+          <li>
+            <strong>Store：</strong>
+            数据和业务逻辑的集中管理者，负责存储应用状态并处理由Dispatcher分发的Action。当Store中的数据发生变化时，会触发一个change事件通知视图更新。
+          </li>
+          <li>
+            <strong>View：</strong>
+            展示层，负责渲染界面并响应用户交互。当用户操作触发Action时，通过Dispatcher分发到Store，Store更新后通知View进行重新渲染。
+          </li>
+        </ul>
+        <strong>和MVC的区别</strong>
+        <br />
+        <ul className={classMap.ul}>
+          <li>
+            Flux采用单向数据流，数据流向更加清晰可预测。而MVC中数据流向可能是双向的，在复杂应用中可能导致数据流向混乱。
+          </li>
+          <li>Flux中Store之间的依赖通过Dispatcher来管理，避免了MVC中Model之间可能产生的复杂依赖关系。</li>
+        </ul>
         <h3 id="node" className={classMap.articleSubTitle}>
           Node.js
         </h3>

@@ -323,6 +323,12 @@ const routers = [
         path: 'babel',
         name: 'babel',
         element: lazy(() => import('@/pages/project/babel'))
+      },
+      {
+        key: '/project/micro',
+        path: 'micro',
+        name: '微前端',
+        element: lazy(() => import('@/pages/project/micro'))
       }
     ]
   },

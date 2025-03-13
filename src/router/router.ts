@@ -355,6 +355,12 @@ const routers = [
         path: 'cloud',
         name: '作为一个前端好意思说没有个人网站？',
         element: lazy(() => import('@/pages/experiences/cloud'))
+      },
+      {
+        key: '/experience/architecture',
+        path: 'architecture',
+        name: '架构设计',
+        element: lazy(() => import('@/pages/experiences/architecture'))
       }
     ]
   },

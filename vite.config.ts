@@ -6,6 +6,9 @@ import basicSsl from '@vitejs/plugin-basic-ssl';
 import path from 'path';
 import viteCompression from 'vite-plugin-compression';
 
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
+
 const isProd = process.env.NODE_ENV === 'production';
 
 export default defineConfig(async () => {
@@ -39,6 +42,9 @@ export default defineConfig(async () => {
       })
     ],
     css: {
+      postcss: {
+        plugins: [tailwindcss, autoprefixer]
+      },
       preprocessorOptions: {
         less: {
           javascriptEnabled: true

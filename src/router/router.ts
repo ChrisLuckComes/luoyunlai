@@ -307,12 +307,6 @@ const routers = [
         element: lazy(() => import('@/pages/project/workflow'))
       },
       {
-        key: '/project/performance',
-        path: 'performance',
-        name: '连指标都不知道还敢说懂性能优化？',
-        element: lazy(() => import('@/pages/project/performance'))
-      },
-      {
         key: '/project/webpack',
         path: 'webpack',
         name: 'Webpack',
@@ -361,6 +355,12 @@ const routers = [
         path: 'architecture',
         name: '架构设计',
         element: lazy(() => import('@/pages/experiences/architecture'))
+      },
+      {
+        key: '/experience/improve',
+        path: 'improve',
+        name: '性能优化策略',
+        element: lazy(() => import('@/pages/experiences/improve'))
       }
     ]
   },
@@ -411,6 +411,12 @@ const routers = [
         path: 'indexedDB',
         name: 'IndexedDB',
         element: lazy(() => import('@/pages/knowledge/indexDB'))
+      },
+      {
+        key: '/knowledge/performance',
+        path: 'performance',
+        name: '连指标都不知道还敢说懂性能优化？',
+        element: lazy(() => import('@/pages/knowledge/performance'))
       }
     ]
   }

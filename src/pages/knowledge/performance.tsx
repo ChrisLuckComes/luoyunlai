@@ -14,7 +14,7 @@ import {
   LONG_TASK,
   TIMING,
   SENTRY_INIT
-} from "./_performance";
+} from "../project/_performance";
 import { useEffect, useState } from "react";
 import { LazyImage } from "@/component/image";
 import { ArticleAnchor } from "@/component/Anchor";
@@ -79,8 +79,8 @@ export default function Index() {
         首先需要分析并定位问题，然后针对性的优化。
         <br />
         常见手段是打开谷歌浏览器F12，使用<code>performance</code>、
-        <code>network</code>、<code>lighthouse</code>
-        面板，对页面加载过程进行分析。
+        <code>network</code>、<code>lighthouse</code>、<code>memory</code>
+        面板，对页面加载，执行过程进行分析。
         <h2 id="indexMap" className={classMap.articleTitle}>
           常见的性能优化指标及获取方式
         </h2>

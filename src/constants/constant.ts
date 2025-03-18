@@ -9,7 +9,7 @@ export const classMap = {
   content: 'max-w-content pr-5',
   href: 'href',
   ul: 'ul',
-  subUl: 'list-circle-li pl-20',
+  subUl: 'list-circle-li pl-10',
   assist: 'assist',
   assistCenter: 'assist text-center',
   markdown: 'markdown-container',

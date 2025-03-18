@@ -157,9 +157,15 @@ export default function Architecture() {
         <h3 id="asyncData" className={classMap.articleSubTitle}>
           数据预取
         </h3>
-        Nuxt.js 3提供了多种方式，可以使用<code>useAsyncData</code>、<code>useFetch</code>等。以下是使用<code>useFetch</code>的示例，它更简洁。
+        Nuxt.js 3提供了多种方式，可以使用<code>useAsyncData</code>、<code>useFetch</code>等。以下是使用
+        <code>useFetch</code>的示例，它更简洁。
         {asyncData}
         Nuxt.js实现原理跟前文提到的一样，在组件实例化之前调用setup函数。
+        <h2 id="summary" className={classMap.articleTitle}>
+          总结
+        </h2>
+        ssr的渲染过程是服务器端和客户端协同工作的过程，服务器端负责请求梳理、数据预取、组件渲染和状态序列化；客户端负责接收HTML、恢复状态和激活组件，使页面具备交互能力。
+        当然实战过程中我们可以直接使用Nuxt.js框架，它让开发变得更加简单高效，开发只需要专注业务逻辑
       </main>
       <ArticleAnchor
         items={[

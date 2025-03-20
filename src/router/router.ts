@@ -310,7 +310,7 @@ const routers = [
         key: '/project/webpack',
         path: 'webpack',
         name: 'Webpack',
-        element: lazy(() => import('@/pages/project/webpack'))
+        element: lazy(() => import('@/pages/project/webpack1'))
       },
       {
         key: '/project/babel',

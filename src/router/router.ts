@@ -297,7 +297,7 @@ const routers = [
       {
         key: '/project/vite',
         path: 'vite',
-        name: '2022年还在用webpack?快上Vite！',
+        name: 'Vite',
         element: lazy(() => import('@/pages/project/vite'))
       },
       {

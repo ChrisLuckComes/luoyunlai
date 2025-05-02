@@ -34,30 +34,25 @@ export default function Index() {
         <h2 id="pre" className="font-semibold text-h2 mb-2">
           Vue-Router
         </h2>
-        Vue-Router是Vue2.x中使用的路由库，本文通过梳理源码简要说明下它的工作原理。
-        源码核心部分为以下内容
+        Vue-Router是Vue2.x中使用的路由库，本文通过梳理源码简要说明下它的工作原理。 源码核心部分为以下内容
         <ul className={classMap.ul}>
           <li>
             <strong>install</strong>: vue插件的通用函数，
             <div className={classMap.assist}>src\install.js</div>
           </li>
           <li>
-            <strong>router</strong>: 核心构造类，包含所有属性和函数{" "}
-            <div className={classMap.assist}>src\router.js</div>
+            <strong>router</strong>: 核心构造类，包含所有属性和函数 <div className={classMap.assist}>src\router.js</div>
           </li>
           <li>
-            <strong>createRouteMap</strong>: 创建路由map，保存路由映射{" "}
+            <strong>createRouteMap</strong>: 创建路由map，保存路由映射{' '}
             <div className={classMap.assist}>src\create-route-map.js</div>
           </li>
           <li>
-            <strong>createMatcher</strong>: 匹配路由{" "}
-            <div className={classMap.assist}>src\create-matcher.js</div>
+            <strong>createMatcher</strong>: 匹配路由 <div className={classMap.assist}>src\create-matcher.js</div>
           </li>
           <li>
-            <strong>Link，View</strong>：路由组件{" "}
-            <div className={classMap.assist}>
-              src\components\link.js，src\components\view.js
-            </div>
+            <strong>Link，View</strong>：路由组件{' '}
+            <div className={classMap.assist}>src\components\link.js，src\components\view.js</div>
           </li>
         </ul>
         <h2 id="install" className={classMap.articleTitle}>
@@ -81,6 +76,9 @@ export default function Index() {
         ，最后全局注册
         <code>RouterView,RouterLink</code>
         组件
+        <br />
+        <span className="text-sky-600 font-bold">补充：</span>将 <code>_route</code>{' '}
+        定义为响应式至关重要，这样当路由发生变化时，依赖 <code>$route</code> 的组件就会自动更新视图。
         <h2 id="router" className={classMap.articleTitle}>
           router
         </h2>
@@ -89,11 +87,17 @@ export default function Index() {
         先看构造函数，构造函数内首先是调用<code>createMatcher</code>
         ，创建matcher，代码如下
         <br />
+        构造函数还会根据传入的 <code>mode</code> (默认为 &lsquo;hash&lsquo;) 来确定使用哪种 <code>history</code> 对象
+        (&lsquo;hash&lsquo; 对应 <code>HashHistory</code>, &lsquo;history&lsquo; 对应 <code>HTML5History</code>,
+        &lsquo;abstract&lsquo; 对应 <code>AbstractHistory</code>)。<code>HashHistory</code> 使用 URL hash 值，
+        <code>HTML5History</code> 使用 H5 History API (<code>pushState</code>, <code>replaceState</code>)，而{' '}
+        <code>AbstractHistory</code> 则不依赖浏览器环境（例如 Node.js 或 NativeScript）。后续的路由跳转操作 (
+        <code>push</code>, <code>replace</code>, <code>go</code> 等) 都会委托给这个 <code>history</code> 对象处理。
+        <br />
         <h3 id="createMatcher" className={classMap.articleSubTitle}>
           createMatcher
         </h3>
-        createMatcher首先调用了<code>createRouteMap</code>，并返回 match,
-        addRoute, getRoutes, addRoutes四个函数。
+        createMatcher首先调用了<code>createRouteMap</code>，并返回 match, addRoute, getRoutes, addRoutes四个函数。
         {createMatcher}
         <h3 id="createRouteMap" className={classMap.articleSubTitle}>
           createRouteMap
@@ -147,14 +151,15 @@ export default function Index() {
           路由守卫
         </h2>
         在init函数中，路由确定history后，会调用
-        <code>
-          {" "}
-          history.transitionTo( history.getCurrentLocation(), setupListeners,
-          setupListeners )
-        </code>
+        <code> history.transitionTo( history.getCurrentLocation(), setupListeners, setupListeners )</code>
         先过度到当前路由
         {transitionTo}
         transitionTo主要调用了<code>confirmTransition</code>
+        <br />
+        <span className="text-sky-600 font-bold">补充：</span>
+        在执行导航守卫之前，<code>confirmTransition</code> 会先调用 <code>resolveQueue</code> 函数。该函数比较当前路由 (
+        <code>this.current.matched</code>) 和目标路由 (<code>route.matched</code>) 的记录，找出需要更新 (updated)、失活
+        (deactivated) 和激活 (activated) 的路由记录（组件）。这些信息将用于提取对应组件内的导航守卫。
         <br />
         confirmTransition函数设置了<code>queue</code>
         队列，并按这个顺序遍历执行，顺序如下：
@@ -177,72 +182,97 @@ export default function Index() {
           </li>
         </ul>
         {confirmTransition}
+        <br />
+        <span className="text-sky-600 font-bold">补充：</span>
+        当所有守卫成功执行并通过 <code>next()</code> 后，会执行 <code>runQueue</code>{' '}
+        的最终回调。在这个回调里，会执行传入 <code>confirmTransition</code> 的 <code>onComplete</code> 回调。
+        <code>onComplete</code> 主要做了以下几件事：
+        <ul>
+          <li>
+            调用 <code>updateRoute(route)</code> 更新当前的路由状态 <code>this.current</code>。
+          </li>
+          <li>
+            调用 <code>ensureURL()</code> 来确保浏览器地址栏与当前路由同步 (hash 模式下改变 hash，history 模式下调用
+            pushState/replaceState)。
+          </li>
+          <li>
+            执行全局的 <code>afterHooks</code>。
+          </li>
+          <li>
+            如果是首次导航，设置 <code>this.ready = true</code> 并执行 <code>readyCbs</code> 队列中的回调。
+          </li>
+          <li>
+            通过 <code>app.$nextTick</code> 调用 <code>handleRouteEntered(route)</code>。<code>handleRouteEntered</code>{' '}
+            函数负责执行那些在组件内 <code>beforeRouteEnter</code> 守卫中通过 <code>{'next(vm => { ... })'}</code>{' '}
+            传递的回调函数，因为此时组件实例已经创建完毕。
+          </li>
+        </ul>
       </main>
       <ArticleAnchor
         items={[
           {
-            title: "Vue-Router",
-            key: "pre",
-            href: "#pre"
+            title: 'Vue-Router',
+            key: 'pre',
+            href: '#pre'
           },
           {
-            title: "install",
-            key: "install",
-            href: "#install"
+            title: 'install',
+            key: 'install',
+            href: '#install'
           },
           {
-            title: "router",
-            key: "router",
-            href: "#router",
+            title: 'router',
+            key: 'router',
+            href: '#router',
             children: [
               {
-                title: "createMatcher",
-                key: "createMatcher",
-                href: "#createMatcher"
+                title: 'createMatcher',
+                key: 'createMatcher',
+                href: '#createMatcher'
               },
               {
-                title: "createRouteMap",
-                key: "createRouteMap",
-                href: "#createRouteMap"
+                title: 'createRouteMap',
+                key: 'createRouteMap',
+                href: '#createRouteMap'
               },
               {
-                title: "addRouteRecord",
-                key: "addRouteRecord",
-                href: "#addRouteRecord"
+                title: 'addRouteRecord',
+                key: 'addRouteRecord',
+                href: '#addRouteRecord'
               }
             ]
           },
           {
-            title: "路由组件",
-            key: "component",
-            href: "#component",
+            title: '路由组件',
+            key: 'component',
+            href: '#component',
             children: [
               {
-                title: "View",
-                key: "view",
-                href: "#view"
+                title: 'View',
+                key: 'view',
+                href: '#view'
               },
               {
-                title: "Link",
-                key: "link",
-                href: "#link"
+                title: 'Link',
+                key: 'link',
+                href: '#link'
               }
             ]
           },
           {
-            title: "路由操作",
-            key: "mode",
-            href: "#mode"
+            title: '路由操作',
+            key: 'mode',
+            href: '#mode'
           },
           {
-            title: "路由匹配",
-            key: "match",
-            href: "#match"
+            title: '路由匹配',
+            key: 'match',
+            href: '#match'
           },
           {
-            title: "路由守卫",
-            key: "hook",
-            href: "#hook"
+            title: '路由守卫',
+            key: 'hook',
+            href: '#hook'
           }
         ]}
       ></ArticleAnchor>

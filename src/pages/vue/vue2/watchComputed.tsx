@@ -1,6 +1,6 @@
-import { classMap } from "@/constants/constant";
-import { Anchor } from "antd";
-import { UseMarkDown } from "@/hooks/useMarkdown";
+import { classMap } from '@/constants/constant';
+import { ArticleAnchor } from '@/component/Anchor';
+import { UseMarkDown } from '@/hooks/useMarkdown';
 import {
   INIT_STATE,
   INIT_COMPUTED,
@@ -11,16 +11,13 @@ import {
   CREATE_WATCHER,
   RUN,
   GET
-} from "./_watchComputed";
-const { Link } = Anchor;
+} from './_watchComputed';
 
 export default function Index() {
   const initState = <UseMarkDown markdown={INIT_STATE}></UseMarkDown>,
     initComputed = <UseMarkDown markdown={INIT_COMPUTED}></UseMarkDown>,
     defineComputed = <UseMarkDown markdown={DEFINE_COMPUTED}></UseMarkDown>,
-    sharedPropertyDefinition = (
-      <UseMarkDown markdown={SHARED_PROPERTY_DEFENITION}></UseMarkDown>
-    ),
+    sharedPropertyDefinition = <UseMarkDown markdown={SHARED_PROPERTY_DEFENITION}></UseMarkDown>,
     initWatch = <UseMarkDown markdown={INIT_WATCH}></UseMarkDown>,
     watch = <UseMarkDown markdown={VUE_WATCH}></UseMarkDown>,
     createWatcher = <UseMarkDown markdown={CREATE_WATCHER}></UseMarkDown>,
@@ -54,8 +51,8 @@ export default function Index() {
         <br />
         <code>dirty</code>就是定义Watcher时传入的<code>lazy</code>
         ，标识计算属性需要缓存，如果dirty是true(每次触发update会设置为true)，那么获取计算属性值时才需要调用
-        <code>watcher.evaluate()</code>，执行完成后将dirty再次设为false，
-        ,否则直接return <code>watcher.value</code>。{defineComputed}
+        <code>watcher.evaluate()</code>，执行完成后将dirty再次设为false， ,否则直接return <code>watcher.value</code>。
+        {defineComputed}
         <code>sharedPropertyDefinition</code>是全局变量,它是
         <code>Object.defineProperty</code>的公共配置参数。在
         <code>initProps,initData</code>通过<code>proxy</code>函数统一定义属性。
@@ -65,8 +62,7 @@ export default function Index() {
         </h2>
         遍历watch属性，调用<code>createWatcher</code>
         {initWatch}
-        调用<code>$watch</code>创建Watcher，<code>$watch</code>在
-        <code>stateMixin</code>中被添加到Vue原型上。
+        调用<code>$watch</code>创建Watcher，<code>$watch</code>在<code>stateMixin</code>中被添加到Vue原型上。
         <br />
         {createWatcher}
         <code>$watch</code>会设置<code>options.user = true</code>
@@ -78,9 +74,7 @@ export default function Index() {
           总结
         </h2>
         <ul className={classMap.ul}>
-          <li>
-            最显著的区别：computed保存了计算结果，可以直接使用。而watch只是将旧值和新值传入并执行回调函数
-          </li>
+          <li>最显著的区别：computed保存了计算结果，可以直接使用。而watch只是将旧值和新值传入并执行回调函数</li>
           <li>
             computed可以定义<code>get,set</code>属性，watch不支持。
           </li>
@@ -88,12 +82,9 @@ export default function Index() {
             watch支持<code>immediate</code>
             ，可以传入当前值watcher.value立即执行一次回调函数。
           </li>
+          <li>computed支持缓存，在依赖没有变化的时候无需重新执行。watch不支持缓存，每次更新都会执行回调函数</li>
           <li>
-            computed支持缓存，在依赖没有变化的时候无需重新执行。watch不支持缓存，每次更新都会执行回调函数
-          </li>
-          <li>
-            watch支持<code>deep</code>属性
-            ，触发get时会遍历对象，将每一个属性都添加监听。
+            watch支持<code>deep</code>属性 ，触发get时会遍历对象，将每一个属性都添加监听。
             {get}
           </li>
           <li>
@@ -101,16 +92,31 @@ export default function Index() {
             {run}
           </li>
         </ul>
-        <Anchor
-          className="anchor"
-          getContainer={() => document.getElementById("content") as HTMLElement}
-        >
-          <Link href="#pre" title="前言"></Link>
-          <Link href="#computed" title="computed"></Link>
-          <Link href="#watch" title="watch"></Link>
-          <Link href="#summary" title="总结"></Link>
-        </Anchor>
       </main>
+      <ArticleAnchor
+        items={[
+          {
+            title: '前言',
+            key: 'pre',
+            href: '#pre'
+          },
+          {
+            title: 'computed',
+            key: 'computed',
+            href: '#computed'
+          },
+          {
+            title: 'watch',
+            key: 'watch',
+            href: '#watch'
+          },
+          {
+            title: '总结',
+            key: 'summary',
+            href: '#summary'
+          }
+        ]}
+      ></ArticleAnchor>
     </article>
   );
 }

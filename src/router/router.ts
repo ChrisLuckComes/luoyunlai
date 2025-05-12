@@ -423,6 +423,12 @@ const routers = [
         path: 'performance',
         name: '连指标都不知道还敢说懂性能优化？',
         element: lazy(() => import('@/pages/knowledge/performance'))
+      },
+      {
+        key: '/knowledge/cdn',
+        path: 'cdn',
+        name: '深度了解CDN',
+        element: lazy(() => import('@/pages/knowledge/cdn'))
       }
     ]
   }

@@ -1,11 +1,17 @@
 import { classMap } from "@/constants/constant";
 import { UseMarkDown } from "@/hooks/useMarkdown";
-import { PROMISE_STATUS, PROMISE_STRUCT, PROMISE_THEN } from "./_promise";
+import {
+  PROMISE_ALL,
+  PROMISE_STATUS,
+  PROMISE_STRUCT,
+  PROMISE_THEN
+} from "./_promise";
 import { ArticleAnchor } from "@/component/Anchor";
 
 export default function Index() {
   const promiseStatus = <UseMarkDown markdown={PROMISE_STATUS}></UseMarkDown>,
     promiseThen = <UseMarkDown markdown={PROMISE_THEN}></UseMarkDown>,
+    promiseAll = <UseMarkDown markdown={PROMISE_ALL}></UseMarkDown>,
     promiseStruct = <UseMarkDown markdown={PROMISE_STRUCT}></UseMarkDown>;
 
   return (
@@ -180,6 +186,32 @@ export default function Index() {
         </h3>
         所以这里需要定义一个函数来解决promise，并且在then函数中调用该解决函数，按照规范得出完整代码如下。
         {promiseStruct}
+
+        <h2 id="all" className={classMap.articleTitle}>
+          Promise.all
+        </h2>
+        <h3 id="standard4" className={classMap.articleSubTitle}>
+          规范
+        </h3>
+        <code>Promise.all()</code> 静态方法接受一个 Promise 可迭代对象作为输入，并返回一个
+        <code>Promise</code>
+        实例。当输入的所有 Promise 都变为 fulfilled 状态后，返回的 Promise
+        会变为 fulfilled 状态，并且其值是一个包含所有输入 Promise
+        结果的数组（顺序与输入顺序一致）。如果输入中的任何一个 Promise 变为
+        rejected 状态，则返回的 Promise 会立即变为 rejected
+        状态，并以第一个被 rejected 的 Promise 的理由作为其失败理由。
+        <h3 id="code4" className={classMap.articleSubTitle}>
+          实现
+        </h3>
+        我们在 <code>MyPromise</code> 类上实现一个 <code>all</code>
+        方法（注意，规范中 <code>all</code> 是静态方法，这里为简化实现为实例方法）。它接收一个
+        <code>MyPromise</code>
+        实例数组。内部创建一个新的
+        <code>MyPromise</code>
+        ，遍历输入的数组，使用计数器来跟踪已完成的 Promise
+        数量。当所有 Promise 都成功时，用结果数组 resolve 新的
+        Promise。如果任何一个 Promise 失败，则立即 reject 新的 Promise。
+        {promiseAll}
       </main>
       <ArticleAnchor
         items={[
@@ -236,6 +268,23 @@ export default function Index() {
                 title: "实现",
                 href: "#code3",
                 key: "code3"
+              }
+            ]
+          },
+          {
+            title: "Promise.all",
+            key: "all",
+            href: "#all",
+            children: [
+              {
+                title: "规范",
+                href: "#standard4",
+                key: "standard4"
+              },
+              {
+                title: "实现",
+                href: "#code4",
+                key: "code4"
               }
             ]
           }

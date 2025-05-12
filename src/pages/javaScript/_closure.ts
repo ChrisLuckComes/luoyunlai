@@ -5,9 +5,9 @@ function func(str) {
     };
   }
   
-  let nameFunc = func();
+  let nameFunc = func("Hello, Closure!");
   
-  console.log(nameFunc);
+  console.log(nameFunc());
 \`\`\``;
 
 export const PRIVATE_ATTR = `\`\`\`js

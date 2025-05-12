@@ -92,3 +92,13 @@ import { nextTick } from "Vue";
 
 nextTick(()=>{...})
 \`\`\``;
+
+export const CODE_GOOD_EXAMPLE = `\`\`\`js
+// utils.js
+export function method1() { /* ... */ }
+export function method2() { /* ... */ }
+
+// main.js
+import { method1 } from './utils'; // 只导入需要的 method1
+method1();
+\`\`\``;

@@ -110,16 +110,14 @@ export default function Index() {
           __webpack_require__.d
         </h3>
         <code>__webpack_require__.d</code>
-        在exports对象上对每个key添加了getter属性。
+        在exports对象上对每个key添加了getter属性。这正是 ES Module 与 CommonJS 的关键区别之一。通过 getter，当导入模块访问导出的变量时，实际访问的是原始模块中的变量值。如果原始值发生变化（例如，在模块内部被重新赋值），导入方再次访问时会得到更新后的值，这就是所谓的&apos;Live Binding&apos;。
         <h3 id="esmSummary" className={classMap.articleSubTitle}>
           Es Module的实现
         </h3>
         ESM和CJS主要区别在于传入参数的代码部分
         <ul className={classMap.ul}>
           <li>
-            1. ESM新增了临时对象
-            <code>_module2__WEBPACK_IMPORTED_MODULE_0__ </code>
-            来创建引用，代码实际上访问的还是exports对象
+            1. ESM 通过 <code>__webpack_require__</code> 导入模块时，会得到一个由 Webpack 处理过的模块对象（如示例中的 <code>_module2__WEBPACK_IMPORTED_MODULE_0__</code>）。访问这个对象的属性（如 <code>[&apos;default&apos;]</code> 或 <code>[&apos;a&apos;]</code>）时，会触发之前通过 <code>__webpack_require__.d</code> 定义的 getter 或直接访问 <code>default</code> 属性，从而获取到原始模块中的值或引用。
           </li>
           <li>
             2. 对于<code>export default</code>的导出，在exports对象上添加
@@ -144,7 +142,7 @@ export default function Index() {
         ES
         Module导出的并不是对象，在编译时，就可以确定模块之间的依赖关系，所以可以认为ES
         Module是静态加载的，
-        <code>tree shaking</code>就是由此而来。
+        <code>tree shaking</code>就是由此而来。因为在编译阶段就能明确知道哪些 <code>export</code> 被哪些 <code>import</code> 使用了，打包工具（如 Webpack）就可以分析出代码中未被实际使用的导出部分，并在最终打包时将其移除，以减小代码体积。
       </main>
       <ArticleAnchor
         items={[

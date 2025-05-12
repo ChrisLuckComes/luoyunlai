@@ -111,13 +111,13 @@ export class MyPromise {
 
       function processData(data: any, index: number) {
         arr[index] = data;
-        if (++i === arr.length) {
+        if (++i === promiseArr.length) {
           resolve(arr);
         }
       }
 
       for (let j = 0; j < promiseArr.length; j++) {
-        promiseArr[j].then(data => processData(data, j));
+        promiseArr[j].then(data => processData(data, j), reject);
       }
     });
   }
@@ -284,6 +284,31 @@ class MyPromise {
 }
 \`\`\``;
 
+export const PROMISE_ALL = `\`\`\`ts
+class MyPromise {
+  // ... other methods and properties
+  all(promiseArr: MyPromise[]) {
+    return new MyPromise((resolve, reject) => {
+      let arr: any[] = [],
+        i = 0;
+
+      function processData(data: any, index: number) {
+        arr[index] = data;
+        // 等待所有 promise 都成功
+        if (++i === promiseArr.length) {
+          resolve(arr);
+        }
+      }
+
+      for (let j = 0; j < promiseArr.length; j++) {
+        // 如果任何一个 promise 失败，则立即 reject
+        promiseArr[j].then(data => processData(data, j), reject);
+      }
+    });
+  }
+}
+\`\`\``;
+
 export const PROMISE_STRUCT = `\`\`\`ts
 type HandleFunc = (value: unknown) => any;
 
@@ -389,6 +414,24 @@ class MyPromise {
     }
 
     return promise2;
+  }
+
+  all(promiseArr: MyPromise[]) {
+    return new MyPromise((resolve, reject) => {
+      let arr: any[] = [],
+        i = 0;
+
+      function processData(data: any, index: number) {
+        arr[index] = data;
+        if (++i === promiseArr.length) {
+          resolve(arr);
+        }
+      }
+
+      for (let j = 0; j < promiseArr.length; j++) {
+        promiseArr[j].then(data => processData(data, j), reject);
+      }
+    });
   }
 }
 

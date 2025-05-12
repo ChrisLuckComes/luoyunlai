@@ -69,7 +69,7 @@ export default function Index() {
           </li>
           <li>4. 执行构造函数</li>
           <li>
-            5. 如果构造函数返回不为空，则返回该对象；否则返回刚创建的新对象
+            5. 如果构造函数返回一个对象，则该对象将作为 <code>new</code> 操作符的结果返回。否则（如果构造函数没有返回对象、返回 <code>null</code> 或返回一个原始值），则新创建的对象将被返回。
           </li>
         </ul>
         构造函数也是函数，没有特殊语法，区别就是调用方式不同，首字母一般是大写。任何函数用new调用就是构造函数，不用就是普通函数。
@@ -81,15 +81,25 @@ export default function Index() {
         <strong>原型</strong>
         <br />
         <br />
-        每当调用构造函数创建一个新实例，实例的内部[[Prototype]]的指针就会被赋值为构造函数的原型对象。
-        虽然js不能直接访问到[[Prototype]]，但是Chrome,Safari,Firefox浏览器会在每个对象上暴露
+        每当调用构造函数创建一个新实例，实例的内部<code>[[Prototype]]</code>的指针就会被赋值为构造函数的原型对象。
+        虽然JS规范中不能直接访问到<code>[[Prototype]]</code>，但是大多数现代浏览器会在每个对象上暴露一个非标准的
         <code>__proto__</code>
-        ，通过这个属性就可以访问对象的原型，也可以使用
-        <code>Object.getPrototypeOf(obj)</code>来获取
+        属性，通过这个属性就可以访问对象的原型。更推荐使用ES5提供的
+        <code>Object.getPrototypeOf(obj)</code>方法来获取对象的原型。
         <br />
         <br /> 关键记住一句话：
-        <strong>对象跟构造函数原型有联系，跟构造函数没有</strong>。
+        <strong>实例对象通过其内部的 <code>[[Prototype]]</code> (或 <code>__proto__</code>) 链接到其构造函数的 <code>prototype</code> 对象，而不是直接链接到构造函数本身</strong>。
+        例如，对于我们之前在Debug部分提到的 <code>Person</code> 构造函数和实例 <code>a</code> (<code>let a = new Person(&quot;lyl&quot;)</code>)：
+        <code>console.log(a.__proto__ === Person.prototype) // true</code>
+        <code>console.log(Object.getPrototypeOf(a) === Person.prototype) // true</code>
+        <br />
+        而 <code>Person.prototype</code> 本身也是一个对象，它的原型默认指向 <code>Object.prototype</code>：
+        <code>console.log(Person.prototype.__proto__ === Object.prototype) // true</code>
+        <code>console.log(Object.getPrototypeOf(Person.prototype) === Object.prototype) // true</code>
+        <br />
+        对于一个通过对象字面量创建的普通对象，例如 <code>let obj = {};</code>，其原型直接是 <code>Object.prototype</code>：
         <code>console.log(obj.__proto__ === Object.prototype) // true</code>
+        <code>console.log(Object.getPrototypeOf(obj) === Object.prototype) // true</code>
         <h3 id="attr" className={classMap.articleSubTitle}>
           访问属性
         </h3>
@@ -109,6 +119,7 @@ export default function Index() {
         直观视觉版，可以看到就是一个链条，顶部为<code>Object</code>
         ，因为默认情况下，所有引用类型都继承自Object，也是通过原型链实现的，任何函数的默认原型都是Object的实例：
         <LazyImage src={PROTO_TOP}></LazyImage>
+        <br />
         原型链扩展了上文访问属性的搜索机制，通过原型链就可以继续向上搜索原型的原型。
       </main>
       <ArticleAnchor
@@ -125,8 +136,8 @@ export default function Index() {
           },
           {
             title: "对象",
-            key: "object",
-            href: "#object"
+            key: "diff",
+            href: "#diff"
           },
           {
             title: "构造函数",

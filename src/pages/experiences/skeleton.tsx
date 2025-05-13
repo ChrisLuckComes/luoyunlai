@@ -3,10 +3,13 @@ import { UseMarkDown } from "@/hooks/useMarkdown";
 import { ArticleAnchor } from '@/component/Anchor';
 import { SKELETON_PRINCIPLE, SKELETON_CODE } from "./_skeleton";
 import Skeleton from "@/components/Skeleton";
+import { useState } from "react";
+import { Button } from "antd";
 
 export default function SkeletonDemo() {
   const principle = <UseMarkDown markdown={SKELETON_PRINCIPLE}></UseMarkDown>;
   const code = <UseMarkDown markdown={SKELETON_CODE}></UseMarkDown>;
+  const [loading, setLoading] = useState(true);
 
   return (
     <article className={classMap.article}>
@@ -42,6 +45,42 @@ export default function SkeletonDemo() {
           <Skeleton width="200px" height="20px" animated={false} />
         </div>
 
+        <h2 id="内容插槽" className={classMap.articleTitle}>内容插槽</h2>
+        <p>可以通过 loading 属性控制骨架屏的显示和隐藏，同时使用 children 插槽来放置实际内容：</p>
+        <div className="p-4 bg-gray-50 rounded-lg">
+          <div className="flex gap-4 mb-4">
+            <Button 
+              type="primary"
+              onClick={() => setLoading(!loading)}
+            >
+              {loading ? '关闭骨架屏' : '打开骨架屏'}
+            </Button>
+          </div>
+          <div className="flex gap-6">
+            <Skeleton width="200px" height="120px" loading={loading}>
+              <img 
+                src="https://picsum.photos/200/120" 
+                alt="示例图片" 
+                className="w-[200px] h-[120px] object-cover rounded"
+              />
+            </Skeleton>
+            <div className="flex-1 flex flex-col gap-3">
+              <Skeleton width="60%" height="24px" loading={loading}>
+                <h3 className="text-xl font-semibold">文章标题</h3>
+              </Skeleton>
+              <Skeleton width="100%" height="16px" loading={loading}>
+                <p className="text-gray-600">这是文章的第一段内容，描述了文章的主要观点和内容概要。</p>
+              </Skeleton>
+              <Skeleton width="100%" height="16px" loading={loading}>
+                <p className="text-gray-600">这是文章的第二段内容，进一步展开讨论和说明。</p>
+              </Skeleton>
+              <Skeleton width="40%" height="16px" loading={loading}>
+                <p className="text-gray-500">2024-03-21</p>
+              </Skeleton>
+            </div>
+          </div>
+        </div>
+
         <h2 id="实现原理" className={classMap.articleTitle}>实现原理</h2>
         <p>骨架屏的核心实现原理包括：</p>
         {principle}
@@ -54,6 +93,7 @@ export default function SkeletonDemo() {
           { title: "基础用法", href: "#基础用法", key: "basic" },
           { title: "模拟文章列表", href: "#模拟文章列表", key: "article" },
           { title: "无动画效果", href: "#无动画效果", key: "no-animation" },
+          { title: "内容插槽", href: "#内容插槽", key: "slot" },
           { title: "实现原理", href: "#实现原理", key: "principle" }
         ]}
       />

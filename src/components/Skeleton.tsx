@@ -6,9 +6,22 @@ interface SkeletonProps {
   height?: string | number;
   className?: string;
   animated?: boolean;
+  loading?: boolean;
+  children?: React.ReactNode;
 }
 
-export default function Skeleton({ width, height, className, animated = true }: SkeletonProps) {
+export default function Skeleton({ 
+  width, 
+  height, 
+  className, 
+  animated = true,
+  loading = true,
+  children 
+}: SkeletonProps) {
+  if (!loading) {
+    return <>{children}</>;
+  }
+   
   return (
     <div
       className={`${styles.skeleton} ${animated ? styles.animated : ''} ${className || ''}`}

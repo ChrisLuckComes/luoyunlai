@@ -333,11 +333,17 @@ const routers = [
     ]
   },
   {
-    key: '/experience',
+    key: 'experience',
     path: '/experience',
-    name: '经验',
+    name: '经验分享',
     element: lazy(() => import('@/pages/index')),
     children: [
+      {
+        key: '/experience/skeleton',
+        path: 'skeleton',
+        name: '骨架屏实现指南',
+        element: lazy(() => import('@/pages/experiences/skeleton'))
+      },
       {
         key: '/experience/npm',
         path: 'npm',

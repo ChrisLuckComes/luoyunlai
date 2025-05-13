@@ -1,5 +1,16 @@
 export const CDN_CONFIG = `\`\`\`nginx
 # Nginx CDN配置示例
+
+# HTML文件使用协商缓存
+location ~* \\.html$ {
+    etag on;
+    if_modified_since exact;
+    add_header Cache-Control "no-cache";
+    add_header ETag $etag;
+    add_header Last-Modified $date_gmt;
+}
+
+# 静态资源使用强缓存
 location /static/ {
     proxy_cache my_cache;
     proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
@@ -64,4 +75,29 @@ export const CDN_ARCHITECTURE = `\`\`\`plaintext
 用户 -> 边缘节点 -> 源站
      |-> 边缘节点 -> 源站
      |-> 边缘节点 -> 源站
+\`\`\``;
+
+export const CSS_LOADING = `\`\`\`html
+<!-- CSS加载示例 -->
+<head>
+  <!-- 阻塞渲染的CSS -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- 异步加载的CSS -->
+  <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
+  
+  <!-- 预加载CSS -->
+  <link rel="preload" href="styles.css" as="style">
+  <link rel="stylesheet" href="styles.css">
+</head>
+\`\`\``;
+
+export const CSS_LOADING_PROCESS = `\`\`\`plaintext
+CSS加载过程：
+1. 构建DOM树
+2. 遇到<link>标签，暂停DOM构建
+3. 下载CSS文件
+4. 解析CSS，构建CSSOM树
+5. 合并DOM树和CSSOM树，构建渲染树
+6. 布局和绘制
 \`\`\``; 

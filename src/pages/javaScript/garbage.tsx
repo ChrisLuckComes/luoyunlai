@@ -6,7 +6,13 @@ import {
   HIDDEN_CLASS,
   NO_DEF,
   CLOSURE_TIMER,
-  CLOSURE
+  CLOSURE,
+  V8_MEMORY,
+  OPTIMIZATION,
+  GC_CONDITIONS,
+  REACHABILITY,
+  V8_MARKING,
+  V8_SWEEP_COMPACT
 } from "./_garbage";
 
 import GC from "@images/js/majorGC.svg";
@@ -95,13 +101,61 @@ export default function Index() {
         开始，它是已知对象指针的集合，包括执行上下文和全局对象。它跟踪每个对象指针，标记对象为可达(reachable)。GC继续递归的执行这个过程，直到每个可达对象在运行时被找到和标记。
         <br />
         <br />
+        V8引擎在标记阶段使用了三色标记法，并实现了增量标记和写屏障机制，具体实现如下：
+        <UseMarkDown markdown={V8_MARKING}></UseMarkDown>
+        <br />
+        V8的标记过程主要包含以下几个关键点：
+        <br />
+        1. 三色标记法：使用白色、灰色、黑色三种颜色来标记对象的状态，确保标记过程的准确性。
+        <br />
+        2. 写屏障：在对象引用关系改变时触发，防止黑色对象引用白色对象导致的对象丢失。
+        <br />
+        3. 增量标记：将标记过程分成多个小步骤执行，避免长时间的停顿。
+        <br />
+        <br />
+        可达性判断的具体过程如下：
+        <UseMarkDown markdown={REACHABILITY}></UseMarkDown>
+        <br />
         <strong id="sweep">清除阶段</strong>
         <br />
         <br />
         清除阶段会将要被回收的&quot;死亡&quot;对象添加到称为
         <code>free-list</code>
         的数据结构中，这个过程会在内存中留下空白。当标记阶段完成后，GC找到不可达对象留下的相邻的空白，并且将它们加到合适的free-list。为了快速查找，free-lists根据内存块的大小来区别。未来如果想分配内存，只需要从free-list找到合适大小的内存块。
-        <br /> <br />
+        <br />
+        <br />
+        V8引擎在清除和整理阶段的具体实现如下：
+        <UseMarkDown markdown={V8_SWEEP_COMPACT}></UseMarkDown>
+        <br />
+        V8的清除和整理过程主要包含以下几个关键点：
+        <br />
+        1. 清除阶段（Sweep）：
+        <br />
+        - 使用freeList按大小分类管理空闲内存块
+        <br />
+        - 将死亡对象的内存块添加到对应大小的freeList
+        <br />
+        - 提供内存分配接口，从freeList中查找合适大小的内存块
+        <br />
+        <br />
+        2. 整理阶段（Compact）：
+        <br />
+        - 计算对象移动后的新地址
+        <br />
+        - 更新所有对象中的引用关系
+        <br />
+        - 移动对象到新位置
+        <br />
+        - 更新freeList
+        <br />
+        <br />
+        3. 分代GC中的整理策略：
+        <br />
+        - 新生代使用复制式整理（Copy Compact）
+        <br />
+        - 老生代使用标记-整理（Mark Compact）
+        <br />
+        <br />
         <strong id="compact">整理</strong>
         <br />
         主要GC选择性的清理/整理某些页，在碎片启发式算法基础上(fragmentation
@@ -177,9 +231,20 @@ export default function Index() {
         </h2>
         虽然说大多数开发者通常无需关心内存管理，但是JavaScript运行在浏览器中，分配给浏览器的内存通常少于桌面软件，移动浏览器更少。这主要是出于安全考虑，避免网页大量运行JavaScript耗尽能存导致系统崩溃，这个内存限制影响内存分配和同一个线程中能执行的语句数量。
         <br />
+        <br />
+        V8引擎的内存分配情况如下：
+        <UseMarkDown markdown={V8_MEMORY}></UseMarkDown>
+        <br />
         将内存占用量保持在一个较小的值可以让页面性能更好。优化内存占用手段之一就是
         <strong>解除引用</strong>
         ：当数据不再必要，那么把它设置为null，就可以释放引用，最适合全局变量及其属性，因为局部变量超出作用域后会自动接触引用。
+        <br />
+        <br />
+        现代JavaScript提供了一些内存优化的技巧：
+        <UseMarkDown markdown={OPTIMIZATION}></UseMarkDown>
+        <br />
+        垃圾回收的触发条件：
+        <UseMarkDown markdown={GC_CONDITIONS}></UseMarkDown>
         <br />
         解除引用不会自动导致内存被回收，而是保证相关的值不在上下文里，下次GC会回收。
         <br />

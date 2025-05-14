@@ -7,7 +7,7 @@ import HTTPS from "@/images/https.png";
 import HTTPS_INSTRUCTION from "@/images/https-instruction.png";
 import HTTP2_FRAME from "@/images/http2-frame.png";
 import HTTP2_STREAM from "@/images/http2-stream.jpg";
-import { NGINX } from ".";
+import { NGINX } from "./_http2";
 import { UseMarkDown } from "@/hooks/useMarkdown";
 import { LazyImage } from "@/component/image";
 import { ArticleAnchor } from "@/component/Anchor";
@@ -17,7 +17,7 @@ export default function Index() {
     <article id="rootArticle" className={classMap.article}>
       <main className={classMap.content}>
         <h1 id="http" className="font-semibold text-h2 mb-2">
-          http=&gt;https=&gt;http2
+          http=&gt;https=&gt;http2=&gt;http3
         </h1>
         <div>
           <h2 id="httpDisAdv" className={classMap.articleTitle}>
@@ -111,6 +111,35 @@ export default function Index() {
             其他优点
           </strong>
           <p>头部压缩,服务器推送等</p>
+
+          <h2 id="http3" className={classMap.articleTitle}>
+            http3
+          </h2>
+          <p>HTTP3是HTTP协议的第三个主要版本，它基于QUIC协议，是对HTTP2的进一步改进。</p>
+          <br />
+          <strong id="quic" className="text-16">
+            QUIC协议
+          </strong>
+          <p>
+            QUIC（Quick UDP Internet Connections）是一个基于UDP的传输层协议，由Google开发。它解决了TCP的一些固有问题：
+          </p>
+          <ul className={classMap.ul}>
+            <li>1. 基于UDP，避免了TCP的队头阻塞问题</li>
+            <li>2. 内置TLS 1.3，提供更好的安全性</li>
+            <li>3. 连接迁移：当网络切换时（如从WiFi切换到4G），不需要重新建立连接</li>
+            <li>4. 更快的连接建立：0-RTT（零往返时间）连接建立</li>
+          </ul>
+          <br />
+          <strong id="http3Adv" className="text-16">
+            HTTP3的优势
+          </strong>
+          <ul className={classMap.ul}>
+            <li>1. 更低的延迟：通过QUIC协议减少了连接建立时间</li>
+            <li>2. 更好的移动网络支持：连接迁移特性使其在移动网络环境下表现更好</li>
+            <li>3. 更强的安全性：内置TLS 1.3</li>
+            <li>4. 更好的多路复用：完全解决了队头阻塞问题</li>
+          </ul>
+
           <h2 id="nginx" className={classMap.articleTitle}>
             nginx配置
           </h2>
@@ -186,6 +215,23 @@ export default function Index() {
             ]
           },
           {
+            title: "http3",
+            key: "http3",
+            href: "#http3",
+            children: [
+              {
+                title: "QUIC协议",
+                key: "quic",
+                href: "#quic"
+              },
+              {
+                title: "HTTP3优势",
+                key: "http3Adv",
+                href: "#http3Adv"
+              }
+            ]
+          },
+          {
             title: "nginx配置",
             key: "nginx",
             href: "#nginx"
@@ -194,4 +240,4 @@ export default function Index() {
       ></ArticleAnchor>
     </article>
   );
-}
+} 

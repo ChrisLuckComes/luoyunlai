@@ -289,12 +289,6 @@ const routers = [
         element: lazy(() => import('@/pages/project/tailwindcss'))
       },
       {
-        key: '/project/http2',
-        path: 'http2',
-        name: 'http=>https=>http2',
-        element: lazy(() => import('@/pages/project/http2'))
-      },
-      {
         key: '/project/vite',
         path: 'vite',
         name: 'Vite',
@@ -379,7 +373,7 @@ const routers = [
   {
     key: 'knowledge',
     path: '/knowledge',
-    name: '知识',
+    name: '知识库',
     element: lazy(() => import('@/pages/index')),
     children: [
       {
@@ -435,6 +429,12 @@ const routers = [
         path: 'cdn',
         name: '深度了解CDN',
         element: lazy(() => import('@/pages/knowledge/cdn'))
+      },
+      {
+        key: '/knowledge/http2',
+        path: 'http2',
+        name: 'HTTP协议演进',
+        element: lazy(() => import('@/pages/knowledge/http2'))
       }
     ]
   }

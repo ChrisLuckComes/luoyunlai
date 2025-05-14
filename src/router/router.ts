@@ -435,6 +435,12 @@ const routers = [
         path: 'http2',
         name: 'HTTP协议演进',
         element: lazy(() => import('@/pages/knowledge/http2'))
+      },
+      {
+        key: '/knowledge/websocket',
+        path: 'websocket',
+        name: 'WebSocket、SSE和轮询',
+        element: lazy(() => import('@/pages/knowledge/websocket'))
       }
     ]
   }

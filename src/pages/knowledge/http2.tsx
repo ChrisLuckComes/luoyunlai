@@ -112,6 +112,82 @@ export default function Index() {
           </strong>
           <p>头部压缩,服务器推送等</p>
 
+          <h3 id="headerCompression" className={classMap.articleTitle}>
+            头部压缩
+          </h3>
+          <p>
+            HTTP/2 使用 HPACK 算法进行头部压缩，主要包含以下机制：
+          </p>
+          <ul className={classMap.ul}>
+            <li>
+              <strong>静态表</strong>：
+              <ol className="ml-8 mt-2">
+                <li>预定义了61个常用的 HTTP 头部字段</li>
+                <li>如 :method: GET、:path: /、:status: 200 等</li>
+                <li>这些字段只需要用1个字节的索引号表示</li>
+              </ol>
+            </li>
+            <li>
+              <strong>动态表</strong>：
+              <ol className="ml-8 mt-2">
+                <li>存储本次连接中传输过的头部字段</li>
+                <li>可以动态添加新的头部字段</li>
+                <li>后续请求可以复用这些字段</li>
+              </ol>
+            </li>
+            <li>
+              <strong>Huffman 编码</strong>：
+              <ol className="ml-8 mt-2">
+                <li>对头部字段的值进行压缩</li>
+                <li>使用变长编码，常用字符用更短的编码</li>
+                <li>可以进一步减少传输数据量</li>
+              </ol>
+            </li>
+          </ul>
+
+          <p>
+            举个例子，一个典型的 HTTP/1.1 请求头：
+          </p>
+          <pre className="bg-gray-100 p-4 rounded">
+GET /index.html HTTP/1.1
+Host: example.com
+User-Agent: Mozilla/5.0
+Accept: text/html
+Accept-Language: en-US,en;q=0.9
+Cookie: session=123456
+          </pre>
+
+          <p>
+            在 HTTP/2 中，这些头部可能被压缩为：
+          </p>
+          <ul className={classMap.ul}>
+            <li>:method: GET 和 :path: /index.html 使用静态表（1字节）</li>
+            <li>Host: example.com 可能使用动态表（如果之前传输过）</li>
+            <li>其他头部使用 Huffman 编码压缩</li>
+            <li>最终可能只需要原始大小的 20%-30%</li>
+          </ul>
+
+          <p>
+            这种压缩机制的优势：
+          </p>
+          <ul className={classMap.ul}>
+            <li>显著减少头部数据量，提高传输效率</li>
+            <li>避免重复传输相同的头部字段</li>
+            <li>特别适合移动网络等带宽受限的场景</li>
+          </ul>
+
+          <h3 id="serverPush" className={classMap.articleTitle}>
+            服务器推送
+          </h3>
+          <p>
+            服务器推送允许服务器在客户端请求之前就发送资源，主要应用场景：
+          </p>
+          <ul className={classMap.ul}>
+            <li>推送 HTML 页面中引用的 CSS、JavaScript 文件</li>
+            <li>推送页面中需要的图片资源</li>
+            <li>推送 API 调用可能需要的相关数据</li>
+          </ul>
+
           <h2 id="http3" className={classMap.articleTitle}>
             http3
           </h2>
@@ -210,7 +286,19 @@ export default function Index() {
               {
                 title: "其他优点",
                 key: "other",
-                href: "#other"
+                href: "#other",
+                children: [
+                  {
+                    title: "头部压缩",
+                    key: "headerCompression",
+                    href: "#headerCompression"
+                  },
+                  {
+                    title: "服务器推送",
+                    key: "serverPush",
+                    href: "#serverPush"
+                  }
+                ]
               }
             ]
           },

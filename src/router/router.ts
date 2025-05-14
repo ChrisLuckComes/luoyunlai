@@ -57,13 +57,6 @@ const routers = [
         element: lazy(() => import('@/pages/javaScript/asyncAwait'))
       },
       {
-        key: '/js/websocket',
-        path: 'websocket',
-        name: 'WebSocket',
-        group: 'JavaScript',
-        element: lazy(() => import('@/pages/javaScript/websocket'))
-      },
-      {
         key: '/js/tsExercise',
         path: 'tsExercise',
         name: 'TypeScript类型体操(一)',

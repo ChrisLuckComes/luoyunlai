@@ -2,7 +2,7 @@ import { classMap } from "@/constants/constant";
 import { UseMarkDown } from "@/hooks/useMarkdown";
 import { ArticleAnchor } from '@/component/Anchor';
 import { SKELETON_PRINCIPLE, SKELETON_CODE } from "./_skeleton";
-import Skeleton from "@/components/Skeleton";
+import Skeleton from "@/component/Skeleton";
 import { useState } from "react";
 import { Button } from "antd";
 
